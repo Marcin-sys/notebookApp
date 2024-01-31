@@ -1,0 +1,52 @@
+#menu{
+    text-align: center;
+    border-top: 1px solid black;
+}
+
+
+.button {
+    front-size: 20px;
+    text-decoration: none;
+    border: 2px solid black;
+    border-radius:15px;
+    colo:black;
+    display: inline-block;
+    margin: 5px 25px;
+    padding: 5px 10px;
+    transition: border, color, background-color 1s;
+    cursor: pointer;
+    background-color: white;
+}
+
+.button:hover{
+    border: 2px solid red;
+    background-color: red;
+    color: white;
+}
+
+#content{
+    wight: 70%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.input-field{
+        front-size: 20px;
+        text-decoration: none;
+        border: 2px solid black;
+        border-radius:15px;
+        colo:black;
+        display: display-block;
+        margin: 5px auto;
+        padding: 5px 10px;
+        transition: border, color, background-color 1s;
+        background-color: white;
+        text-align: center;
+        width: 350px;
+}
+
+.input-field:hover{
+    border: 2px solid red;
+    background-color: red;
+    color: white;
+}

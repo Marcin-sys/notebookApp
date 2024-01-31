@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="menu" th:fragment="menu">
+  <a href="/main" class="button">Strona Główna</a>
+  <a href="/login" class="button" th:if="${session.user == null}">Zaloguj</a>
+  <a href="/logout" class="button" th:if="${session.user != null}">Wyloguj</a>
+
+</div>
+<th:block th:fragment="headers">
+  <meta charset="UTF-8">
+  <title>NoteBookApp</title>
+  <link rel="stylesheet" href="/commons.css">
+</th:block>
+</body>
+</html>
