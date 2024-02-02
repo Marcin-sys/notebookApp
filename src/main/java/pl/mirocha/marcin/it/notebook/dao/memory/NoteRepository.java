@@ -15,16 +15,16 @@ public class NoteRepository implements INoteDAO {
     private final NoteIdSequence noteIdSequence;
 
     public NoteRepository(NoteIdSequence noteIdSequence) {
-        this.notes.add(new Note(noteIdSequence.getId(),"FirstNote","NoteBody"));
-        this.notes.add(new Note(noteIdSequence.getId(),"FirstNote2","NoteBody2"));
-        this.notes.add(new Note(noteIdSequence.getId(),"FirstNote3","NoteBody3"));
+        this.notes.add(new Note(noteIdSequence.getId(), "FirstNote", "NoteBody"));
+        this.notes.add(new Note(noteIdSequence.getId(), "FirstNote2", "NoteBody2"));
+        this.notes.add(new Note(noteIdSequence.getId(), "FirstNote3", "NoteBody3"));
         this.noteIdSequence = noteIdSequence;
     }
 
     @Override
     public Note getById(int id) {
-        for (Note note : this.notes){
-            if (note.getId() == id){
+        for (Note note : this.notes) {
+            if (note.getNoteId() == id) {
                 return note.clone();
             }
         }
@@ -34,7 +34,7 @@ public class NoteRepository implements INoteDAO {
     @Override
     public List<Note> getAll() {
         List<Note> result = new ArrayList<>();
-        for (Note note : this.notes){
+        for (Note note : this.notes) {
             result.add(note.clone());
         }
         return result;
@@ -43,9 +43,9 @@ public class NoteRepository implements INoteDAO {
     @Override
     public List<Note> getByPattern(String pattern) {
         List<Note> result = new ArrayList<>();
-        for(Note note : this.notes){
+        for (Note note : this.notes) {
             if (note.getNoteTitle().toLowerCase().contains(pattern.toLowerCase())
-                || note.getNoteBody().toLowerCase().contains(pattern.toLowerCase())){
+                    || note.getNoteBody().toLowerCase().contains(pattern.toLowerCase())) {
                 result.add(note.clone());
             }
         }
@@ -54,14 +54,14 @@ public class NoteRepository implements INoteDAO {
 
     @Override
     public void save(Note note) {
-        note.setId(this.noteIdSequence.getId());
+        note.setNoteId(this.noteIdSequence.getId());
         this.notes.add(note);
     }
 
     @Override
     public void update(Note note) {
-        Note noteFromDB = this.getById(note.getId());
-        if (noteFromDB == null){
+        Note noteFromDB = this.getById(note.getNoteId());
+        if (noteFromDB == null) {
             return;
         }
         noteFromDB.setNoteTitle(note.getNoteTitle());
@@ -71,9 +71,9 @@ public class NoteRepository implements INoteDAO {
     @Override
     public void delete(int id) {
         Iterator<Note> iterator = this.notes.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Note note = iterator.next();
-            if (note.getId() == id){
+            if (note.getNoteId() == id) {
                 iterator.remove();
                 break;
             }

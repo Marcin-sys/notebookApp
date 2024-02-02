@@ -22,11 +22,9 @@ import pl.mirocha.marcin.it.notebook.validators.UserValidator;
 @Controller
 public class CommonController {
     private final IUserDAO userDAO;
-    private INoteDAO noteDAO;
 
-    public CommonController(IUserDAO userDAO, INoteDAO noteDAO) {
+    public CommonController(IUserDAO userDAO) {
         this.userDAO = userDAO;
-        this.noteDAO = noteDAO;
     }
 
     @RequestMapping(path = {"/main", "/", "/index"}, method = RequestMethod.GET)
@@ -34,6 +32,7 @@ public class CommonController {
         if (httpSession.getAttribute("userName") instanceof String) {
             String userName = httpSession.getAttribute("userName").toString();
             User user = this.userDAO.getByLogin(userName);
+
             if (httpSession.getAttribute("filter") instanceof String) {
                 String pattern = httpSession.getAttribute("filter").toString();
                 model.addAttribute("notes", user.getUserRepositoryNotes().getByPattern(pattern));
@@ -86,11 +85,12 @@ public class CommonController {
         if (user != null && user.getPassword().equals(DigestUtils.md5Hex(password))) {
             user.setPassword(null);
             httpSession.setAttribute("user", user);
-            httpSession.setAttribute("userName",login);
+            httpSession.setAttribute("userName", login);
             return "redirect:/main";
         }
         return "redirect:/login";
     }
+
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession httpSession) {
         httpSession.removeAttribute("user");

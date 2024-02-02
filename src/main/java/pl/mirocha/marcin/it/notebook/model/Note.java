@@ -9,13 +9,13 @@ import lombok.*;
 @ToString
 @Builder
 public class Note {
-    private int id;
+    private int noteId;
     private String noteTitle;
     private String noteBody;
 
     public Note clone(){
         Note note = new Note();
-        note.setId(this.id);
+        note.setNoteId(this.noteId);
         note.setNoteTitle(this.noteTitle);
         note.setNoteBody(this.noteBody);
         return note;

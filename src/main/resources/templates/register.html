@@ -9,11 +9,16 @@
 
 <div id="content">
     <form method="post" onsubmit="return validate()">
-        <input type="text" placeholder="Imie" class="input-field" th:field="*{userModel.name}" id="name">
-        <input type="text" placeholder="Nazwisko" class="input-field" th:field="*{userModel.surname}" id="surname">
-        <input type="text" placeholder="Login" class="input-field" th:field="*{userModel.login}" id="login">
-        <input type="text" placeholder="Password" class="input-field" th:field="*{userModel.password}" id="password">
-        <input type="text" placeholder="Powtórz Hasło" class="input-field" th:field="*{userModel.password2}" id="password2">
+        <input type="text" placeholder="Imie" class="input-field"
+               th:field="*{userModel.name}" id="name">
+        <input type="text" placeholder="Nazwisko" class="input-field"
+               th:field="*{userModel.surname}" id="surname">
+        <input type="text" placeholder="Login" class="input-field"
+               th:field="*{userModel.login}" id="login">
+        <input type="text" placeholder="Password" class="input-field"
+               th:field="*{userModel.password}" id="password">
+        <input type="text" placeholder="Powtórz Hasło" class="input-field"
+               th:field="*{userModel.password2}" id="password2">
         <p id="info"></p>
         <input type="submit" value="Zarejestruj" class="button">
 
