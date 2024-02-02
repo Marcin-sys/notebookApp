@@ -2,12 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="~{fragments.html :: headers}"></th:block>
-    <link rel="stylesheet" href="/book.css">
+    <link rel="stylesheet" href="/note.css">
 </head>
 <body>
 <div th:replace="~{fragments.html :: menu}"></div>
 
-<div id="content">
+<div id="content" th:if="${session.user != null}">
+
+    <form action="/filter" method="get">
+        <input type="text" placeholder="Szukaj" class="input-field" name="pattern"
+               style="display: inline-block" th:value="${session.filter}">
+        <input type="submit" VALUE="OK" class="button" >
+    </form>
+
+
+
+    <div class="note" th:each="note : ${notes}">
+        <div th:text="${note.noteTitle}" class="title"></div>
+        <div th:text="${note.noteBody}" class="body"></div>
+    </div>
+
+    <form action="/newNote" method="post">
+
+        <input type="text" placeholder="Title" class="input-field" name="titleBody">
+
+        <input type="text" placeholder="NoteBookBody" class="input-field" name="notBookBody">
+
+        <input type="submit" VALUE="Save New Note" class="button" >
+    </form>
 
 </div>
 </body>

@@ -14,5 +14,4 @@ public class RegisterUserDTO {
     private String login;
     private String password;
     private String password2;
-
 }
