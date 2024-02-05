@@ -18,11 +18,9 @@ public class UserRepository implements IUserDAO {
 
     public UserRepository(UserIdSequence userIdSequence) {
         this.users.add(new User(userIdSequence.getId(), "admin", "0192023a7bbd73250516f069df18b500",
-                "Pan", "administrator", User.Role.ADMIN,
-                new NoteRepository(new NoteIdSequence())));
+                "Pan", "administrator", User.Role.ADMIN,new ArrayList<>()));
         this.users.add(new User(userIdSequence.getId(), "janusz", "1e6f2ac43951a6721d3d26a379cc7f8b",
-                "Janusz", "Kowalski", User.Role.USER,
-                new NoteRepository(new NoteIdSequence())));
+                "Janusz", "Kowalski", User.Role.USER,new ArrayList<>()));
         this.userIdSequence = userIdSequence;
     }
 
@@ -90,14 +88,5 @@ public class UserRepository implements IUserDAO {
         userFromDB.setLogin(user.getLogin());
         userFromDB.setPassword(user.getPassword());
         userFromDB.setRole(user.getRole());
-    }
-
-    @Override
-    public NoteRepository getUserNotes(User user) {
-        User userFromDB = this.getById(user.getId());
-        if (userFromDB == null) {
-            return null;
-        }
-        return userFromDB.getUserRepositoryNotes();
     }
 }

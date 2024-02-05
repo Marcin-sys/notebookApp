@@ -2,7 +2,8 @@ package pl.mirocha.marcin.it.notebook.model;
 
 
 import lombok.*;
-import pl.mirocha.marcin.it.notebook.dao.memory.NoteRepository;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +18,7 @@ public class User {
     private String name;
     private String surname;
     private Role role;
-    private NoteRepository userRepositoryNotes;
+    private List<Integer> accessibleListNotesById;
 
     @Override
     public User clone() {
@@ -28,7 +29,7 @@ public class User {
         user.setName((this.name));
         user.setSurname(this.surname);
         user.setRole(this.role);
-        user.setUserRepositoryNotes(this.userRepositoryNotes);
+        user.setAccessibleListNotesById(this.accessibleListNotesById);
         return user;
     }
 

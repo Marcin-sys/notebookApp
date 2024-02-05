@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.mirocha.marcin.it.notebook.dao.INoteDAO;
 import pl.mirocha.marcin.it.notebook.dao.IUserDAO;
-import pl.mirocha.marcin.it.notebook.dao.memory.NoteIdSequence;
-import pl.mirocha.marcin.it.notebook.dao.memory.NoteRepository;
 import pl.mirocha.marcin.it.notebook.exceptions.UserAlreadyExistException;
 import pl.mirocha.marcin.it.notebook.exceptions.UserValidationException;
 import pl.mirocha.marcin.it.notebook.model.Note;
@@ -19,25 +17,35 @@ import pl.mirocha.marcin.it.notebook.model.User;
 import pl.mirocha.marcin.it.notebook.model.dto.RegisterUserDTO;
 import pl.mirocha.marcin.it.notebook.validators.UserValidator;
 
+import java.util.ArrayList;
+import java.util.Enumeration;
+
 @Controller
 public class CommonController {
     private final IUserDAO userDAO;
+    private final INoteDAO noteDAO;
 
-    public CommonController(IUserDAO userDAO) {
+    public CommonController(IUserDAO userDAO, INoteDAO noteDAO) {
         this.userDAO = userDAO;
+        this.noteDAO = noteDAO;
     }
 
     @RequestMapping(path = {"/main", "/", "/index"}, method = RequestMethod.GET)
     public String main(Model model, HttpSession httpSession) {
+        Enumeration<String> enumeration = httpSession.getAttributeNames();
+        while (enumeration.hasMoreElements()){
+            System.out.println(enumeration.nextElement());
+        }
         if (httpSession.getAttribute("userName") instanceof String) {
             String userName = httpSession.getAttribute("userName").toString();
             User user = this.userDAO.getByLogin(userName);
 
             if (httpSession.getAttribute("filter") instanceof String) {
                 String pattern = httpSession.getAttribute("filter").toString();
-                model.addAttribute("notes", user.getUserRepositoryNotes().getByPattern(pattern));
+                model.addAttribute("notes",
+                        this.noteDAO.getUserNotesByPattern(pattern,this.noteDAO.getAllUserNotes(user)));
             } else {
-                model.addAttribute("notes", user.getUserRepositoryNotes().getAll());
+                model.addAttribute("notes", this.noteDAO.getAllUserNotes(user));
             }
         }
         return "index";
@@ -51,13 +59,13 @@ public class CommonController {
         note.setNoteBody(notBookBody);
         String userName = httpSession.getAttribute("userName").toString();
         User user = this.userDAO.getByLogin(userName);
-        user.getUserRepositoryNotes().save(note);
-        model.addAttribute("notes", user.getUserRepositoryNotes().getAll());
+        user.getAccessibleListNotesById().add(this.noteDAO.saveNoteAndReturnIdNote(note));
+        model.addAttribute("notes", this.noteDAO.getAllUserNotes(user));
         return "redirect:/main";
     }
 
     @RequestMapping(path = "/filter", method = RequestMethod.GET)
-    public String filter(@RequestParam String pattern, Model model, HttpSession httpSession) {
+    public String filter(@RequestParam String pattern, HttpSession httpSession) {
         if (pattern.isEmpty()) {
             httpSession.removeAttribute("filter");
         } else {
@@ -122,7 +130,7 @@ public class CommonController {
         user.setLogin(userDTO.getLogin());
         user.setPassword(DigestUtils.md5Hex(userDTO.getPassword()));
         user.setRole(User.Role.USER);
-        user.setUserRepositoryNotes(new NoteRepository(new NoteIdSequence()));
+        user.setAccessibleListNotesById(new ArrayList<>());
         return user;
     }
 

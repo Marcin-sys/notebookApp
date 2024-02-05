@@ -3,6 +3,7 @@ package pl.mirocha.marcin.it.notebook.dao.memory;
 import org.springframework.stereotype.Component;
 import pl.mirocha.marcin.it.notebook.dao.INoteDAO;
 import pl.mirocha.marcin.it.notebook.model.Note;
+import pl.mirocha.marcin.it.notebook.model.User;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +31,29 @@ public class NoteRepository implements INoteDAO {
         }
         return null;
     }
+    @Override
+    public List<Note> getAllUserNotes(User user) {
+        List<Note> result = new ArrayList<>();
+        for (Note note : this.notes){
+            if (user.getAccessibleListNotesById().contains(note.getNoteId())){
+                result.add(note);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<Note> getUserNotesByPattern(String pattern,List<Note> userNotes) {
+        List<Note> result = new ArrayList<>();
+        for (Note note : userNotes) {
+            if (note.getNoteTitle().toLowerCase().contains(pattern.toLowerCase())
+                    || note.getNoteBody().toLowerCase().contains(pattern.toLowerCase())) {
+                result.add(note.clone());
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public List<Note> getAll() {
@@ -53,9 +77,10 @@ public class NoteRepository implements INoteDAO {
     }
 
     @Override
-    public void save(Note note) {
+    public Integer saveNoteAndReturnIdNote(Note note) {
         note.setNoteId(this.noteIdSequence.getId());
         this.notes.add(note);
+        return note.getNoteId();
     }
 
     @Override
