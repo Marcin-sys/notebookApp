@@ -13,13 +13,10 @@ import java.util.List;
 public class NoteRepository implements INoteDAO {
 
     private final List<Note> notes = new ArrayList<>();
-    private final NoteIdSequence noteIdSequence;
+    private final IdSequence idSequence;
 
-    public NoteRepository(NoteIdSequence noteIdSequence) {
-        this.notes.add(new Note(noteIdSequence.getId(), "FirstNote", "NoteBody"));
-        this.notes.add(new Note(noteIdSequence.getId(), "FirstNote2", "NoteBody2"));
-        this.notes.add(new Note(noteIdSequence.getId(), "FirstNote3", "NoteBody3"));
-        this.noteIdSequence = noteIdSequence;
+    public NoteRepository(IdSequence idSequence) {
+        this.idSequence = idSequence;
     }
 
     @Override
@@ -78,7 +75,7 @@ public class NoteRepository implements INoteDAO {
 
     @Override
     public Integer saveNoteAndReturnIdNote(Note note) {
-        note.setNoteId(this.noteIdSequence.getId());
+        note.setNoteId(this.idSequence.getId());
         this.notes.add(note);
         return note.getNoteId();
     }
