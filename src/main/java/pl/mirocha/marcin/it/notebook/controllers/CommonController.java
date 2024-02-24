@@ -14,6 +14,7 @@ import pl.mirocha.marcin.it.notebook.model.User;
 import pl.mirocha.marcin.it.notebook.model.dto.RegisterUserDTO;
 import pl.mirocha.marcin.it.notebook.validators.UserValidator;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -54,6 +55,7 @@ public class CommonController {
         Note note = new Note();
         note.setNoteTitle(titleBody);
         note.setNoteBody(notBookBody);
+        note.setDateTime(LocalDateTime.now());
         String userName = httpSession.getAttribute("userName").toString();
         User user = this.userDAO.getByLogin(userName);
         user.getAccessibleListNotesById().add(this.noteDAO.saveNoteAndReturnIdNote(note));

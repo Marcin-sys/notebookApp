@@ -31,3 +31,7 @@
     height: 22px;
     background-image: url("/kosz.png");
 }
+
+.note .date {
+    width: 10%;
+}
