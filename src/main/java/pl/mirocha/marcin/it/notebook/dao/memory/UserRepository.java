@@ -20,7 +20,7 @@ public class UserRepository implements IUserDAO {
         this.users.add(new User(idSequence.getId(), "admin", "0192023a7bbd73250516f069df18b500",
                 "Pan", "administrator", User.Role.ADMIN,new ArrayList<>()));
         this.users.add(new User(idSequence.getId(), "janusz", "1e6f2ac43951a6721d3d26a379cc7f8b",
-                "Janusz", "Kowalski", User.Role.USER,new ArrayList<>()));
+                "Janusz", "Kowalski", User.Role.MODERATOR,new ArrayList<>()));
         this.idSequence = idSequence;
     }
 
