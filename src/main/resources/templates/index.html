@@ -20,14 +20,13 @@
     <div class="note" th:each="note : ${notes}">
         <div th:text="${note.noteTitle}" class="title"></div>
         <div th:text="${note.noteBody}" class="body"></div>
+        <div class="remove"><a th:href="@{/remove/{id}(id=${note.noteId})}"></a></div>
     </div>
 
     <form action="/newNote" method="post">
 
         <input type="text" placeholder="Title" class="input-field" name="titleBody">
-
         <input type="text" placeholder="NoteBookBody" class="input-field" name="notBookBody">
-
         <input type="submit" VALUE="Save New Note" class="button" >
     </form>
 

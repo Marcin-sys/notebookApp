@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.mirocha.marcin.it.notebook.dao.INoteDAO;
 import pl.mirocha.marcin.it.notebook.dao.IUserDAO;
 import pl.mirocha.marcin.it.notebook.exceptions.UserAlreadyExistException;
@@ -123,7 +120,13 @@ public class CommonController {
         return "redirect:/main";
     }
 
-    private User map(RegisterUserDTO userDTO) {
+    @RequestMapping(path = "/remove/{noteId}", method = RequestMethod.GET)
+    public String remove(@PathVariable int noteId) {
+        this.noteDAO.delete(noteId);
+        return "redirect:/main";
+    }
+
+        private User map(RegisterUserDTO userDTO) {
         User user = new User();
         user.setName(userDTO.getName());
         user.setSurname(userDTO.getSurname());
