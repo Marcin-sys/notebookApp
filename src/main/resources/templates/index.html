@@ -21,7 +21,8 @@
         <div th:text="${note.noteTitle}" class="title"></div>
         <div th:text="${note.noteBody}" class="body"></div>
 
-        <div th:if="${session.user.role == T(pl.mirocha.marcin.it.notebook.model.User.Role).ADMIN}" class="remove">
+        <div th:if="${session.user.role == T(pl.mirocha.marcin.it.notebook.model.User.Role).ADMIN ||
+         session.user.role == T(pl.mirocha.marcin.it.notebook.model.User.Role).MODERATOR}" class="remove">
             <a th:href="@{/remove/{id}(id=${note.noteId})}"></a></div>
     </div>
 
